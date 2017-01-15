@@ -1,0 +1,52 @@
+body
+{ 
+  text-align: center;
+ }
+
+div
+{ 
+  width: 80%;
+  margin-left: 10%;
+  }
+
+div.header
+{ 
+  margin-bottom: 50px;
+  }
+
+div.menu
+{ 
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: solid 1px;
+  border-bottom: solid 1px;
+  color: blue;
+  }
+
+div.menu a
+{ 
+  text-decoration: none;
+  color: blue;
+  }
+
+div.content
+{ 
+  width: 70%;
+  margin-left: 15%;
+  padding-top: 3em;
+  text-align: justify;
+  min-height: 300px;
+  }
+
+div.content table
+{
+  border: solid blue 1px;
+  margin: auto;
+  text-align: center;
+  }
+
+div.content table td
+{
+  border: solid blue 1px;
+  text-align: center;
+  }
