@@ -37,6 +37,11 @@ class CharacterController {
         $this->view->makeLetterListPage($letters,"L'alphabet français");
     }
 
+
+    public function showAppartements () {
+
+    }
+
 }
 
 ?>

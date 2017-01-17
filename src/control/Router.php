@@ -53,19 +53,22 @@ class Router {
             if ($route == "/accueil") {
                 $this->view->makeWelcomePage();
             }
-
+            //I don't think this is ncessary anymmore
+            /*
             else if ($route == "/log_prop_uti") {
                 $controller = new appartController ($this->view);
                 $controller->showAlphabet();
             }
 
-
-
-          //I don't think this is ncessary anymmore
-          /*  else if (strlen($route) == 2 && Alphabet::isInAlphabet(substr($route,1,1))) {
+         else if (strlen($route) == 2 && Alphabet::isInAlphabet(substr($route,1,1))) {
                 $controller = new CharacterController ($this->view);
                 $controller->showInformation(substr($route,1,1));
             }*/
+
+            else if ($route == "/log_prop_uti") {
+                $controller = new ClassController ($this->view);
+                $controller->functionThatShowsTheWantedListfromView();
+            }
 
             else {
                 $this->view->makeUnknownURLPage($route); //blad prof
@@ -91,21 +94,59 @@ class Router {
     }
 
     /**
+     * Returns the URL of the page of appartaments and houses peroposed by user
+     * @return A string
+     */
+
+    public function getLogPropUtiURL () {
+        return $this->baseURL."/log_prop_uti";
+    }
+
+    /**
+     * Returns the URL of the welcome page of appartaments and houses searched by user
+     * @return A string
+     */
+
+    public function getLogDemUtiURL () {
+        return $this->baseURL."/log_dem_uti";
+    }
+
+    /**
+     * Returns the URL of the welcome of appartaments and houses peroposed in different countries
+     * @return A string
+     */
+
+    public function getLogPropPaysURL () {
+        return $this->baseURL."/log_prop_pays";
+    }
+
+    /**
+     * Returns the URL of the welcome page ppartaments and housessearched in different countries
+     * @return A string
+     */
+
+    public function getLogDemPaysURL () {
+        return $this->baseURL."/log_dem_pays";
+    }
+
+    //inutiles
+
+    /**
      * Returns the URL of the information page about a given letter.
      * @param $letter The letter about which to display information
      * @return A string
-     */
+     */     /*
     public function getInformationURL ($url) {
         return $this->baseURL."/".$url;
-    }
+    }*/
 
     /**
      * Returns the URL of the page about the alphabet.
      * @return A string
-     */
+     *//*
     public function getAlphabetURL () {
         return $this->baseURL."/alphabet";
-    }
+    }*/
 
     /**
      * Returns the URL of a given file directly accessible via get requests.
@@ -115,22 +156,6 @@ class Router {
      */
     public function getURL ($path) {
         return $this->webBaseURL."/web/".$path;
-    }
-
-    public function getLogPropUtiURL () {
-        return $this->baseURL."/log_prop_uti";
-    }
-
-    public function getLogDemUtiURL () {
-        return $this->baseURL."/log_dem_uti";
-    }
-
-    public function getLogPropPaysURL () {
-        return $this->baseURL."/log_prop_pays";
-    }
-
-    public function getLogDemPaysURL () {
-        return $this->baseURL."/log_dem_pays";
     }
 
 }

@@ -78,8 +78,6 @@ class View {
         }
         $this->content.="</tr>";
 
-
-
         foreach ($logement_list as $logement) {
           $this->content.="<tr>";
           $this->content.=$logement->logementToHTML();
