@@ -2,7 +2,8 @@
 
 require_once("control/CharacterController.php");
 require_once("views/View.php");
-require_once("model/Alphabet.php");
+//we deleted this line:
+//require_once("model/Alphabet.php");
 
 /**
  * A class for handling URLs, namely, parsing URLs and transferring control to appropriate controllers,

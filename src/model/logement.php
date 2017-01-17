@@ -25,19 +25,19 @@ abstract class logement{
     $res.="<td>".$logement->getSurface()."</td>";
     $res.= "<td>".$logement->getNbPiece()."</td>";
     $res.= "<td>".$logement->getAdresse()."</td>";
-
     return $res;
   }
 
 //abstract = tant que il n'y à pas d'information à ce sujet, la fonction est définie dans les autres classes
   public abstract function getSurfaceExt();
 
-//à faire
   function __destruct(){
-    unset($this->date);
-    unset($this->heure);
-    unset($this->lieu);
-    unset($this->sujet);
+    unset($this->$user);
+    unset($this->$pays);
+    unset($this->$surface);
+    unset($this->$nb_piece);
+    unset($this->$adresse);
+    unset($this->$periode);
   }
 
 }

@@ -10,12 +10,27 @@ class appartement extends logement{
     return 0;
   };
 
-//à faire
+
+  //new
+    public function appartementToHTML(){
+      $res="";
+      $res.="<td>".$appartement->getUser()."</td>";
+      $res.="<td>".$appartement->getPays()."</td>";
+      $res.="<td>".$appartement->getSurface()."</td>";
+      $res.= "<td>".$appartement>getNbPiece()."</td>";
+      $res.= "<td>".$appartement->getAdresse()."</td>";
+      $res.= "<td>".$appartement->getSurfaceExt()."</td>";
+      return $res;
+    }
+
+
   function __destruct(){
-    unset($this->date);
-    unset($this->heure);
-    unset($this->lieu);
-    unset($this->sujet);
+    unset($this->$user);
+    unset($this->$pays);
+    unset($this->$surface);
+    unset($this->$nb_piece);
+    unset($this->$adresse);
+    unset($this->$periode);
   }
 
 }

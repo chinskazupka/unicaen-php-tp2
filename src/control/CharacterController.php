@@ -1,6 +1,6 @@
 <?php
-
-require_once("model/Alphabet.php");
+//I desactivated it as we deleted this model
+//require_once("model/Alphabet.php");
 
 /**
  * A controller for actions about characters.
