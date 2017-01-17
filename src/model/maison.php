@@ -14,14 +14,10 @@ class maison extends logement{
   };
 
 //new
-  public function maisonToHTML(){
+  public function logementToHTML(){
     $res="";
-    $res.="<td>".$maison->getUser()."</td>";
-    $res.="<td>".$maison->getPays()."</td>";
-    $res.="<td>".$maison->getSurface()."</td>";
-    $res.= "<td>".$maison->getNbPiece()."</td>";
-    $res.= "<td>".$maison->getAdresse()."</td>";
-    $res.= "<td>".$maison->getSurfaceExt()."</td>";
+    $res.=parent::logementToHTML();
+    $res.= "<td>".$logement->getSurfaceExt()."</td>";
     return $res;
   }
 

@@ -12,16 +12,13 @@ class appartement extends logement{
 
 
   //new
-    public function appartementToHTML(){
+  //new
+    public function logementToHTML(){
       $res="";
-      $res.="<td>".$appartement->getUser()."</td>";
-      $res.="<td>".$appartement->getPays()."</td>";
-      $res.="<td>".$appartement->getSurface()."</td>";
-      $res.= "<td>".$appartement>getNbPiece()."</td>";
-      $res.= "<td>".$appartement->getAdresse()."</td>";
-      $res.= "<td>".$appartement->getSurfaceExt()."</td>";
+      $res.=parent::logementToHTML();
       return $res;
     }
+
 
 
   function __destruct(){

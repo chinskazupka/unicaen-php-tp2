@@ -54,18 +54,21 @@ class Router {
                 $this->view->makeWelcomePage();
             }
 
-            else if ($route == "/alphabet") {
-                $controller = new CharacterController ($this->view);
+            else if ($route == "/log_prop_uti") {
+                $controller = new appartController ($this->view);
                 $controller->showAlphabet();
             }
 
-            else if (strlen($route) == 2 && Alphabet::isInAlphabet(substr($route,1,1))) {
+
+
+          //I don't think this is ncessary anymmore
+          /*  else if (strlen($route) == 2 && Alphabet::isInAlphabet(substr($route,1,1))) {
                 $controller = new CharacterController ($this->view);
                 $controller->showInformation(substr($route,1,1));
-            }
+            }*/
 
             else {
-                $this->view->makeUnknownURLPage($url);
+                $this->view->makeUnknownURLPage($route); //blad prof
             }
 
         } catch (Exception $e) {
@@ -112,6 +115,22 @@ class Router {
      */
     public function getURL ($path) {
         return $this->webBaseURL."/web/".$path;
+    }
+
+    public function getLogPropUtiURL () {
+        return $this->baseURL."/log_prop_uti";
+    }
+
+    public function getLogDemUtiURL () {
+        return $this->baseURL."/log_dem_uti";
+    }
+
+    public function getLogPropPaysURL () {
+        return $this->baseURL."/log_prop_pays";
+    }
+
+    public function getLogDemPaysURL () {
+        return $this->baseURL."/log_dem_pays";
     }
 
 }

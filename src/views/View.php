@@ -56,7 +56,7 @@ class View {
         $this->content = file_get_contents("fragments/welcome.html",true);
     }
 
-    $logement=new logement();
+    //$logement=new logement();
 
     /**
      * Prepares a page showing information about a given list of letters.
@@ -117,10 +117,10 @@ class View {
     protected function getMenu () {
         return array(
             $this->router->getWelcomeURL() => "Accueil",
-            $this->router->getInformationURL('log_prop_uti') => "Logements proposés par un utilisateur",
-            $this->router->getInformationURL('log_dem_uti') => "Logements demandés par un utilisateur",
-            $this->router->getInformationURL('log_prop_pays') => "Logements proposés dans un pays",
-            $this->router->getInformationURL('log_dem_pays') => "Logements demandés dans un pays",
+            $this->router->getLogPropUtiURL() => "Logements proposés par un utilisateur",
+            $this->router->getLogDemUtiURL() => "Logements demandés par un utilisateur",
+            $this->router->getLogPropPaysURL() => "Logements proposés dans un pays",
+            $this->router->getLogDemPaysURL() => "Logements demandés dans un pays",
             // $this->router->getAlphabetURL() => "l'alphabet français"
             // supprimer getAlphabetURL
         );
