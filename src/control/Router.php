@@ -66,8 +66,9 @@ class Router {
             }*/
 
             else if ($route == "/log_prop_uti") {
-                $controller = new ClassController ($this->view); //seulement si on veut une page pas statique que tire de base des donneees (meme une fausse)
-                $controller->functionThatShowsTheWantedListfromView();
+                $controller = new Controller ($this->view); //seulement si on veut une page pas statique que tire de base des donneees (meme une fausse)
+                $user='toto';
+                $controller->showProposedHousing($user);
             }
 
             else {

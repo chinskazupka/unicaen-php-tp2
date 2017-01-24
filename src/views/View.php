@@ -1,6 +1,7 @@
 <?php
 
 include_once("model/logement.php");
+
 /**
  * A class for preparing and rendering pages for the minimal web site.
  * The basic usage of this class consists of calling one of the "makeXXXPage" methods, then
@@ -87,6 +88,35 @@ class View {
         }
         $this->content.= "</table>";
     }
+
+
+
+    public function makeProposedHousing (array $housing, $user) {
+
+        $this->title = 'Logement proposé par '.$user;
+        $this->content = "<table>";
+        $this->content.= "<tr><th>Utilisateur</th><th>Pays</th><th>Surface</th><th>Nombre de pièces</th><th>Adresse</th><th>Date</th>";
+
+        foreach ($housing as $logement) {
+          if ($logement->getSurfaceExt()>0){
+            $this->content.="<th>Surface Exterieure</th>";
+            break;
+          }
+
+        }
+        $this->content.="</tr>";
+
+        foreach ($housing as $logement) {
+          $this->content.="<tr>";
+          $this->content.=$logement->logementToHTML();
+          if ($logement->getSurfaceExt()>0){
+            $this->content.="<td>".$logement->getSurfaceExt()."</td>";
+          }
+        }
+        $this->content.= "</table>";
+    }
+
+
 
     /**
      * Prepares a page explaining that the required URL does not exist.

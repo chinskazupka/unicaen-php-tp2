@@ -1,5 +1,8 @@
 <?php
 
+require_once("model/logement.php");
+
+
 class appartement extends logement{
 
   public function __construct ($user, $pays, $surface, $nb_piece, $adresse, $periode){
@@ -8,10 +11,9 @@ class appartement extends logement{
 
   public function getSurfaceExt(){
     return 0;
-  };
+  }
 
 
-  //new
   //new
     public function logementToHTML(){
       $res="";
@@ -20,7 +22,7 @@ class appartement extends logement{
     }
 
 
-
+/*
   function __destruct(){
     unset($this->$user);
     unset($this->$pays);
@@ -29,6 +31,7 @@ class appartement extends logement{
     unset($this->$adresse);
     unset($this->$periode);
   }
+*/
 
 }
 
