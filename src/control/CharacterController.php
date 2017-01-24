@@ -26,13 +26,22 @@ class Controller {
 
   public function showProposedHousing($user){
     $housing= array();
-    $housing[0] = new appartement('user1','France','20m2','3 pieces','44 rue de Bayeux','avril 2017');
-    $housing[1] = new appartement('user1','France','30m2','4 pieces','55 rue de Lille','juin 2017');
-    $housing[2] = new appartement('user1','France','40m2','5 pieces','66 rue de Paris','octobre 2017');
+    $housing[0] = new appartement('toto','France','20m2','3 pieces','44 rue de Bayeux','avril 2017');
+    $housing[1] = new appartement('toto','France','30m2','4 pieces','55 rue de Lille','juin 2017');
+    $housing[2] = new appartement('toto','France','40m2','5 pieces','66 rue de Paris','octobre 2017');
 
     $this->view->makeProposedHousing($housing, $user);
   }
 }
+
+
+
+
+
+
+
+
+
 
 class CharacterController {
 

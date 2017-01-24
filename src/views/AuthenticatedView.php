@@ -8,7 +8,7 @@ include_once("model/logement.php");
  * calling the "render" method.
  * @author Alexandre Niveau and Bruno Zanuttini, Université de Caen Normandie, France
  */
-class View {
+class AuthenticatedView extends View{
 
     /** The title for this page (prepared by the "makeXXXPage" methods). */
     private $title;
@@ -19,85 +19,22 @@ class View {
     /** The main content for this page (prepared by the "makeXXXPage" methods). */
     private $content;
 
-    /** The HTML name for the input field corresponding to the password for logging in. */
-    protected $passwordReference;
-
     // Generic methods ========================================================================
 
     /**
      * Builds a new instance.
      * @param $router The router handling URLs
-     * @param $passwordReference The HTML name for the input field corresponding to the password for logging in
      */
-    public function __construct (Router $router, $passwordReference) {
+    public function __construct (Router $router) {
         $this->router = $router;
         $this->title = null;
         $this->styleSheetURL = $router->getURL("minimalsite.css");
         $this->content = null;
-        $this->passwordReference = $passwordReference;
-    }
-
-    /**
-     * Renders the prepared page. If no page has been prepared, then makeUnexpectedErrorPage() is called first.
-     */
-    public function render () {
-        if ($this->title===null || $this->content===null) {
-            $this->makeUnexpectedErrorPage(new Exception ("Tried to render a view with null title or content"));
-        }
-        // Now $this->title and $this->content are nonnull
-        $title = $this->title;
-        $styleSheetURL = $this->styleSheetURL;
-        $content = $this->content;
-        $menu = $this->getMenu();
-        $logbox = $this->getLogbox();
-        include("template.php");
     }
 
     // Methods for preparing specific pages ========================================================
 
-    /**
-     * Prepares a page welcoming the user to the web site.
-     */
-    public function makeWelcomePage () {
-        $this->title = "Site d'échange de logements";
-        $this->content = file_get_contents("fragments/welcome.html",true);
-    }
 
-
-    /**
-     * Prepares a page explaining that the required URL does not exist.
-     * @param $url The unknown url
-     */
-    public function makeUnknownURLPage ($url) {
-        $this->title="Erreur";
-        $this->content=file_get_contents("fragments/unknownURL.html",true);
-      }
-
-    /**
-     * Prepares a page explaining that an unexpected exception or error occurred.
-     * @param $e The (unexpected) exception or error raised
-     */
-    public function makeUnexpectedErrorPage ($e) {
-        $this->title="Erreur: ".$e;
-        $this->content=file_get_contents("fragments/unexpectedError.html",true);
-    }
-
-    /**
-     * Prepares a page explaining that the visitor is not allowed to access a given route.
-     * @param $route The route (path info)
-     */
-    public function makeUnauthorizedPage ($route) {
-        $this->title="Accès refusé";
-        $this->content="<p>Vous n'êtes pas autorisé à accéder à cette page.</p>".PHP_EOL;
-    }
-
-    /**
-     * Prepares a page explaining that a login attempt has failed.
-     */
-    public function makeBadLoginPage () {
-        $this->title="Accès refusé";
-        $this->content="<p>Les informations transmises n'ont pas permis de vous authentifier.</p>".PHP_EOL;
-    }
 
     //$logement=new logement();
 
@@ -106,7 +43,7 @@ class View {
      * @param $chars An array of characters (as instances of class Character)
      * @param $title The title for this page
      */
-    public function makeAppartementList (array $logement_list, $title) {
+    /*public function makeAppartementList (array $logement_list, $title) {
 
         $this->title = $title;
         $this->content = "<table>";
@@ -129,7 +66,7 @@ class View {
           }
         }
         $this->content.= "</table>";
-    }
+    }*/
 
 
 
@@ -159,6 +96,33 @@ class View {
     }
 
 
+
+    /**
+     * Prepares a page explaining that the required URL does not exist.
+     * @param $url The unknown url
+     */
+    public function makeUnknownURLPage ($url) {
+        $this->title="Erreur";
+        $this->content=file_get_contents("fragments/unknownURL.html",true);
+    }
+
+    /**
+     * Prepares a page explaining that an unexpected exception or error occurred.
+     * @param $e The (unexpected) exception or error raised
+     */
+    public function makeUnexpectedErrorPage ($e) {
+        $this->title="Erreur: ".$e;
+        $this->content=file_get_contents("fragments/unexpectedError.html",true);
+    }
+
+    /**
+     * Prepares a page welcoming the user to the private part of the web site.
+     */
+    public function makePrivateWelcomePage () {
+        $this->title = "Vous êtes connecté";
+        $this->content = "<p>Découvrez maintenant notre mine d'information.</p>".PHP_EOL;
+    }
+
     // Helper method ========================================================
 
     /**
@@ -167,20 +131,20 @@ class View {
      */
     protected function getMenu () {
         return array(
-            $this->router->getWelcomeURL() => "accueil"
+            $this->router->getWelcomeURL() => "Accueil",
+            $this->router->getLogPropUtiURL() => "Logements proposés par un utilisateur",
+            $this->router->getLogDemUtiURL() => "Logements demandés par un utilisateur",
+            $this->router->getLogPropPaysURL() => "Logements proposés dans un pays",
+            $this->router->getLogDemPaysURL() => "Logements demandés dans un pays",
         );
     }
+
     /**
-     * Returns a widget for logging in.
+     * Returns a widget for logging out.
      * @return A string representing HTML code.
      */
     protected function getLogbox () {
-        //$res = "";
-        $res = "<form method=\"post\" action=\"".$this->router->getLoginURL()."\">".PHP_EOL;
-        $res.= "<label>connexion <input type=\"password\" name=\"".$this->passwordReference."\" /></label>".PHP_EOL;
-        $res.= "<input type=\"submit\" value=\"OK\" />".PHP_EOL;
-        $res.= "</form>".PHP_EOL;
-        return $res;
+      return "<a href=\"".$this->router->getLogoutURL()."\">déconnexion</a>";
     }
 
 }

@@ -1,7 +1,9 @@
 <?php
 
+require_once("control/AuthenticationController.php");
 require_once("control/CharacterController.php");
 require_once("views/View.php");
+require_once("views/AuthenticatedView.php");
 //we deleted this line:
 //require_once("model/Alphabet.php");
 
@@ -42,28 +44,51 @@ class Router {
      */
     public function main () {
 
-        // Instantiating view
-        $this->view = new View ($this);
+      session_start();
+
+      // Creating authentication controller
+      if (!isset($_SESSION["auth"])) {
+          $_SESSION["auth"] = new AuthenticationController ($this,"auth");
+      }
+      $authController = $_SESSION["auth"];
+
+      // Instantiating view
+      if ($authController->isVisitorLoggedIn()) {
+          $this->view = new AuthenticatedView ($this,$authController->getPasswordReference());
+      } else {
+          $this->view = new View ($this,$authController->getPasswordReference());
+      }
 
         // Transferring control depending on URL
         try {
 
             $route = getenv('PATH_INFO');
 
-            if ($route == "/accueil") {
-                $this->view->makeWelcomePage();
-            }
-            //I don't think this is ncessary anymmore
-            /*
-            else if ($route == "/log_prop_uti") {
-                $controller = new appartController ($this->view);
-                $controller->showAlphabet();
+
+            // Checking permissions
+            if (! $this->refersToPublicPage($route) && ! $authController->isVisitorLoggedIn()) {
+                $this->view->makeUnauthorizedPage($route);
             }
 
-         else if (strlen($route) == 2 && Alphabet::isInAlphabet(substr($route,1,1))) {
-                $controller = new CharacterController ($this->view);
-                $controller->showInformation(substr($route,1,1));
-            }*/
+            else if ($route == "/accueil") {
+                $this->view->makeWelcomePage();
+            }
+
+            else if ($route == "/connecte") {
+                $this->view->makePrivateWelcomePage();
+            }
+
+             else if ($route == "/entrer") {
+                $authController->login($_POST);
+            }
+
+            else if ($route == "/badlogin") {
+                $this->view->makeBadLoginPage();
+            }
+
+            else if ($route == "/sortir") {
+                $authController->logout();
+            }
 
             else if ($route == "/log_prop_uti") {
                 $controller = new Controller ($this->view); //seulement si on veut une page pas statique que tire de base des donneees (meme une fausse)
@@ -95,11 +120,36 @@ class Router {
     }
 
     /**
+     * Returns the URL of the private welcome page.
+     * @return A string
+     */
+    public function getPrivateWelcomeURL () {
+        return $this->baseURL."/connecte";
+    }
+
+    /**
+     * Returns the URL to which login attempts must be posted.
+     * @return A string
+     */
+    public function getLoginURL () {
+        return $this->baseURL."/entrer";
+    }
+
+
+    /**
+     * Returns the URL to which login attempts must be posted.
+     * @return A string
+     */
+    public function getLogoutURL () {
+        return $this->baseURL."/sortir";
+    }
+
+    /**
      * Returns the URL of the page of appartaments and houses peroposed by user
      * @return A string
      */
 
-    public function getLogPropUtiURL () {
+    public function getLogPropUtiURL() {
         return $this->baseURL."/log_prop_uti";
     }
 
@@ -130,24 +180,16 @@ class Router {
         return $this->baseURL."/log_dem_pays";
     }
 
-    //inutiles
-
     /**
-     * Returns the URL of the information page about a given letter.
-     * @param $letter The letter about which to display information
-     * @return A string
-     */     /*
-    public function getInformationURL ($url) {
-        return $this->baseURL."/".$url;
-    }*/
+     * Redirects to a given url.
+     * @param $url The URL to redirect to
+     */
+    public function redirect ($url) {
+        header("HTTP/1.1 303 See Other");
+        header("Location: ".$url);
+        exit();
+    }
 
-    /**
-     * Returns the URL of the page about the alphabet.
-     * @return A string
-     *//*
-    public function getAlphabetURL () {
-        return $this->baseURL."/alphabet";
-    }*/
 
     /**
      * Returns the URL of a given file directly accessible via get requests.
@@ -158,6 +200,34 @@ class Router {
     public function getURL ($path) {
         return $this->webBaseURL."/web/".$path;
     }
+
+    /**
+     * Returns a default public URL for visitors.
+     * @return A string
+     */
+    public function getDefaultURL () {
+        return $this->getWelcomeURL();
+    }
+
+    /**
+     * Decides whether a given URL is public.
+     * @param $url A URL for the web site (starting with $this->baseURL), possibly including the query string.
+     * @return true if the URL is public, false otherwise.
+     */
+    public function isPublic ($url) {
+        $route = substr($url,strlen($this->baseURL));
+        return $this->refersToPublicPage($route);
+    }
+
+    /**
+     * Decides whether a given route refers to a public page.
+     * @param $route A route (path info)
+     * @return true if the route refers to a public URL, false otherwise.
+     */
+    public function refersToPublicPage ($route) {
+        return $route=="/accueil" || $route=="/badlogin" || $route=="/entrer";
+    }
+
 
 }
 

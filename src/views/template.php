@@ -22,6 +22,7 @@
           if ($nbItemsLeft != 0) // all items but last one
             echo " | ";
         }
+        echo $logbox;
       ?>
     </div>
 
