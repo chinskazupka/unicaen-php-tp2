@@ -19,7 +19,7 @@ class Controller {
        * Builds a new instance.
        * @param $view The view to be used by this controller for HTML rendering
        */
-      public function __construct (View $view) {
+      public function __construct (View $view) { //QUESTION : que signifie ce qui est en paramètre ?
           $this->view = $view;
       }
 

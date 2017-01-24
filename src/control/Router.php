@@ -56,7 +56,7 @@ class Router {
       if ($authController->isVisitorLoggedIn()) {
           $this->view = new AuthenticatedView ($this,$authController->getPasswordReference());
       } else {
-          $this->view = new View ($this,$authController->getPasswordReference());
+          $this->view = new View ($this,$authController->getPasswordReference()); //QUESTION : que veux dire le $this tout seul ?
       }
 
         // Transferring control depending on URL
